@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
 
   has_many :rounds
 
-  validates :user_name, :email, {uniqueness: true}
+  validates :user_name, presence: true
+  validates_uniqueness_of :email, :message => "in use"
 
   def password
     @password ||= BCrypt::Password.new(password_hash)

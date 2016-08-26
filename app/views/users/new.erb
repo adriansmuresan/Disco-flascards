@@ -1,3 +1,12 @@
+<br><br>
+
+<% if @errors %>
+  <% @errors.each do |error| %>
+    <%= error %>
+  <% end %>
+<% end %>
+
+<br><br>
 <form action="/users" method="post">
 
 <label for="user_name">User Name</label>
