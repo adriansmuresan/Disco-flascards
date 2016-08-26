@@ -1,5 +1,5 @@
 get '/users/login' do
-# go to form to login
+  erb :'users/login'
 end
 
 get '/users/logout' do
@@ -19,4 +19,7 @@ post '/users' do
       @errors = @user.errors.full_messages
       erb :'/users/new'
   end
+
+
+
 end
