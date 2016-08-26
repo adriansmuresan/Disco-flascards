@@ -1,5 +1,12 @@
-<h1>Your card will display here a;lkshdf;okadhsj</h1><br>
+<h1>Your card will display here </h1>
 
-<br><br>
-<p>Helloe<p><br>
+<h1><%= @round.deck.title %></h1>
+
 <p><%= @card_to_show.question %><p>
+
+  <form action="/rounds/<%= @round.id %>/decks/<%= @round.deck.id%>/cards/<%= @card_to_show.id %>" method="post">
+
+  <label for="answer">Answer</label>
+  <input type="text" name="answer">
+  <input type="submit" value="Guess">
+  </form>
