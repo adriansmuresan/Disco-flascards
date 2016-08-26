@@ -1,10 +1,13 @@
-<h1><%= @deck.title %></h1>
+<h1>Your card will display here </h1>
 
-<%= @card.question %><br>
+<h1><%= @round.deck.title %></h1>
 
-<form action="/cards/<%= @card.id %>" method="post">
+<p><%= @card_to_show.question %><p>
 
-<label for="answer">Answer</label>
-<input type="text" name="answer">
-<input type="submit" value="Guess">
-</form>
+  <form action="/rounds/<%= @round.id %>/decks/<%= @round.deck.id%>/cards/<%= @card_to_show.id %>" method="post">
+
+  <label for="answer">Answer</label>
+  <input type="text" name="answer">
+  <input type="submit" value="Guess">
+  </form>
+
