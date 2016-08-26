@@ -2,6 +2,21 @@ get '/users/login' do
   erb :'users/login'
 end
 
+post '/users/login' do
+  puts "****"
+  user = User.find_by(user_name: params[:user_name])
+  if user
+    user.authenticate(user.user_name, params[:password])
+    session[:id] = user.id
+    redirect '/decks'
+  else
+    @errors = "Username and password combo invalid."
+    erb :'users/login'
+  end
+    @errors = "Please enter valid username and password."
+    erb :'users/login'
+end
+
 get '/users/logout' do
 # end the session and redirect to login page
 end
