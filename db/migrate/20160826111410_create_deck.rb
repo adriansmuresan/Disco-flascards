@@ -1,6 +1,6 @@
 class CreateDeck < ActiveRecord::Migration
   def change
-     create_table :deck do |t|
+     create_table :decks do |t|
       t.string :title, null: false
 
       t.timestamps(null: false)
