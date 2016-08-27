@@ -17,10 +17,16 @@
 
   <title></title>
 </head>
+<% if session[:id] == nil  %>
+    <a href="/users/new">Register</a>
+    <a href="/users/login">Login</a>
+  <% else  %>
+    <li><form action="/users/logout" method="post">
+    <input type="hidden" name="_method" value="delete"><input type="submit" value="Logout">
+    </li>
+    </form>
+  <% end  %>
 
-<a href="/users/login">Login</a>
-<a href="/users/logout">Logout</a>
-<a href="/users/new">Register</a>
 <body>
   <%= yield %>
 </body>

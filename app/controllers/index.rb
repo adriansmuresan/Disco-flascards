@@ -1,3 +1,7 @@
 get '/' do
-  redirect "/decks"
+  if session[:id] == nil
+    redirect "/users/login"
+  else
+    redirect "/decks"
+  end
 end
