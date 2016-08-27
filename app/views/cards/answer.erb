@@ -1,0 +1,10 @@
+
+<% if @guess_result %>
+  <%= "You're correct the answer is #{@card.answer} " %>
+<% else %>
+ <%= "Wrong! The correct answer is #{@card.answer}" %>
+<% end %>
+<br><br>
+<form action="/rounds/<%= @round.id %>/decks/<%= @round.deck.id %>/cards/next_card" method="get">
+<input type="submit" value="Next Card">
+</form>
