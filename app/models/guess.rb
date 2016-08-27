@@ -7,17 +7,23 @@ class Guess < ActiveRecord::Base
       guess = Guess.find_by(round: round, card: card)
       guess.result = true
       guess.save
+      round.total_guesses += 1
+      round.save
       return true
-      #Add logic to calculate score
-      # round.first_time_correct += 1
     elsif Guess.exists?(round: round, card: card) && !(user_guess == card.answer)
-      #round.total_guess += 1
+      round.total_guesses += 1
+      round.save
       return false
     elsif !Guess.exists?(round: round, card: card) && (user_guess == card.answer)
       Guess.create({ round: round, card: card, result: true})
+      round.first_time_correct += 1
+      round.total_guesses += 1
+      round.save
       return true
     elsif !Guess.exists?(round: round, card: card) && !(user_guess == card.answer)
       Guess.create({ round: round, card: card, result: false})
+      round.total_guesses += 1
+      round.save
       return false
     end
   end

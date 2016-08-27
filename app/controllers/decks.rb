@@ -46,5 +46,7 @@ end
 
 
 get '/rounds/:round_id/decks/:deck_id/results' do
+  @round = Round.find(params[:round_id])
+
   erb :'/users/results'
 end
