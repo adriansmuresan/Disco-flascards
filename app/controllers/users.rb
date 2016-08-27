@@ -9,7 +9,7 @@ post '/users/login' do
   if user
     user.authenticate(user.user_name, params[:password])
     session[:id] = user.id
-    redirect '/'
+    redirect '/decks'
   else
     @errors = "Username and password combo invalid."
     erb :'users/login'

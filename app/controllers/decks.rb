@@ -1,14 +1,31 @@
+get '/decks' do
+  @decks = Deck.all
+  erb :'/decks/index'
+end
+
+get '/decks/:id' do
+  new_round = Round.new({user_id: session[:user_id], deck_id: params[:id], first_time_correct: 0, total_guesses: 0})
+
+  new_round.save
+
+  redirect "/rounds/#{new_round.id}/decks/#{params[:id]}/cards/next_card"
+end
+
+
 get '/rounds/:round_id/decks/:deck_id/cards/next_card' do
     #Find the next card to display and take the user there
     @round = Round.find(params[:round_id])
-    @all_guesses = @round.guesses
+    # @all_guesses = @round.guesses
+    @all_guesses = Guess.where(round_id: @round)
     @all_cards = Card.all
     @all_correct_cards = []
 
     #Loop through all_guesses and grab only the ones that are result == true
-    @all_guesses.each do |each_guess|
-      if each_guess.result == true
-        @all_correct_cards << each_guess.card
+    if @all_guesses != nil
+      @all_guesses.each do |each_guess|
+        if each_guess.result == true
+          @all_correct_cards << each_guess.card
+        end
       end
     end
 

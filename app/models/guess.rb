@@ -29,25 +29,3 @@ class Guess < ActiveRecord::Base
   end
 
 end
-
-
-# #Now we're going to create the logic to check the guess of the user
-# if params[:answer] == @card.answer
-#   #Check if this card/round combo is already in the guesses table
-#   #if it is then update the result
-#   if @guess_on_table != nil
-#     @guess_on_table.result = true
-#     @guess_on_table.save
-#   #otherwise create a new guess
-#   else
-#     guess = Guess.new({ round: @round, card: @card, result: true})
-#     guess.save
-#   end
-# else
-#   if @guess_on_table != nil
-#     #do nothing
-#   else
-#   guess = Guess.new({ round: @round, card: @card, result: false})
-#   guess.save
-#   end
-# end
