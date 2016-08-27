@@ -17,13 +17,12 @@
 
   <title></title>
 </head>
-<% if session[:id] == nil  %>
+<% if session[:user_id] == nil  %>
     <a href="/users/new">Register</a>
     <a href="/users/login">Login</a>
   <% else  %>
-    <li><form action="/users/logout" method="post">
+    <form action="/users/logout" method="post">
     <input type="hidden" name="_method" value="delete"><input type="submit" value="Logout">
-    </li>
     </form>
   <% end  %>
 
