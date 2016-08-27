@@ -20,6 +20,7 @@ post '/rounds/:round_id/decks/:deck_id/cards/:card_id' do
     @round = Round.find(params[:round_id])
     @card = Card.find(params[:card_id])
 
+    #this needs to go on the guess class
     @guess_on_table = Guess.find_by(round: @round, card: @card)
     #Now we're going to create the logic to check the guess of the user
     if params[:answer] == @card.answer
@@ -42,6 +43,6 @@ post '/rounds/:round_id/decks/:deck_id/cards/:card_id' do
       end
     end
 
-
+    
     redirect "/rounds/#{@round.id}/decks/#{@round.deck.id}/cards/#{params[:card_id]}"
 end
