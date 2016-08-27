@@ -1,52 +1,52 @@
-get '/decks' do
-  @decks = Deck.all
-  erb :"decks/index"
+get '/rounds/:round_id/decks/:deck_id/cards/next_card' do
+    #Find the next card to display and take the user there
+    @round = Round.find(params[:round_id])
+    @all_guesses = @round.guesses
+    @all_cards = Card.all
+    @all_correct_cards = []
+
+    #Loop through all_guesses and grab only the ones that are result == true
+    @all_guesses.each do |each_guess|
+      if each_guess.result == true
+        @all_correct_cards << each_guess.card
+      end
+    end
+
+    #Otherwise get all the cards in the deck and subtract the ones where they guessed correctly and get the sample of that
+    @remaining_cards = (@all_cards - @all_correct_cards)
+
+    if @remaining_cards.length > 0
+      next_card = @remaining_cards.sample
+      redirect "/rounds/#{@round.id}/decks/#{@round.deck.id}/cards/#{next_card.id}"
+    else
+      redirect "/rounds/#{@round.id}/decks/#{@round.deck.id}/results"
+    end
 end
+
 
 get '/rounds/:round_id/decks/:deck_id/cards/:card_id' do
 
     @round = Round.find(params[:round_id])
-
-    #If this is the first card the user is seeing do the sample
-    @card_to_show = @round.cards.sample
-    #Otherwise get all the cards in the deck and subtract the ones where they guessed correctly and get the sample of that
-      #find all of the cards
-      #find all of the cards where the card.guess.result == true for this round id
-      #delete the later from the former
-      #give me a .sample of what's leftover
-
+    @card_to_show = Card.find(params[:card_id])
 
     erb :'/cards/show'
 end
 
-
 post '/rounds/:round_id/decks/:deck_id/cards/:card_id' do
-
     @round = Round.find(params[:round_id])
     @card = Card.find(params[:card_id])
 
-    @guess_on_table = Guess.find_by(round: @round, card: @card)
-    #Now we're going to create the logic to check the guess of the user
-    if params[:answer] == @card.answer
-      #Check if this card/round combo is already in the guesses table
-      #if it is then update the result
-      if @guess_on_table != nil
-        @guess_on_table.result = true
-        @guess_on_table.save
-      #otherwise create a new guess
-      else
-        guess = Guess.new({ round: @round, card: @card, result: true})
-        guess.save
-      end
-    else
-      if @guess_on_table != nil
-        #do nothing
-      else
-      guess = Guess.new({ round: @round, card: @card, result: false})
-      guess.save
-      end
-    end
+    @guess_result = Guess.query_guess_table(@round, @card, params[:answer])
+
+    #If the user got the guess wrong take them to a page that shows them the right answer
+    erb :'cards/answer'
+    #otherwise redirect to a page with a new question
+    # redirect "/rounds/#{@round.id}/decks/#{@round.deck.id}/cards/#{params[:card_id]}/answer"
+end
 
 
-    redirect "/rounds/#{@round.id}/decks/#{@round.deck.id}/cards/#{params[:card_id]}"
+get '/rounds/:round_id/decks/:deck_id/results' do
+  @round = Round.find(params[:round_id])
+
+  erb :'/users/results'
 end
